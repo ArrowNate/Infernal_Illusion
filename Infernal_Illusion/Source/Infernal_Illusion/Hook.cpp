@@ -17,6 +17,8 @@ UHook::UHook()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+	PhysicsHandle = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("PhysicsHandle"));
+	InputComponent = CreateDefaultSubobject<UInputComponent>(TEXT("InputComponent"));
 }
 
 
@@ -27,8 +29,6 @@ void UHook::BeginPlay()
 
 	// ...
 	GetComponentAndBind();
-	
-	UE_LOG(MyLogCategory, Warning, TEXT("YourFunction is being called!"));
 }
 
 
@@ -42,7 +42,6 @@ void UHook::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentT
 	if (PhysicsHandle->GrabbedComponent) {
 		PhysicsHandle->SetTargetLocation(GetReachEnd());
 	}
-	UE_LOG(MyLogCategory, Warning, TEXT("YourFunction is being called!"));
 }
 
 void UHook::GetComponentAndBind()
@@ -53,7 +52,7 @@ void UHook::GetComponentAndBind()
 	InputComponent->BindAction("Grab", IE_Pressed, this, &UHook::Grab);
 	InputComponent->BindAction("Grab", IE_Released, this, &UHook::Release);
 
-	UE_LOG(MyLogCategory, Warning, TEXT("YourFunction is being called!"));
+	UE_LOG(MyLogCategory, Warning, TEXT("GetComponentAndBind is being called!"));
 }
 
 void UHook::Grab()
@@ -63,9 +62,9 @@ void UHook::Grab()
 	auto ActorHit = HitResult.GetActor();
 
 	if (ActorHit) {
-		PhysicsHandle->GrabComponentAtLocation(GrabComponent, NAME_None, GrabComponent->GetOwner()->GetActorLocation());
+		PhysicsHandle->GrabComponentAtLocation(GrabComponent, NAME_None, HitResult.ImpactPoint);
 	}
-	UE_LOG(MyLogCategory, Warning, TEXT("YourFunction is being called!"));
+	UE_LOG(MyLogCategory, Warning, TEXT("Grab is being called!"));
 }
 
 void UHook::Release()
@@ -82,8 +81,8 @@ FHitResult UHook::GetPhysicsBodyInReach()
 
 	GetWorld()->LineTraceSingleByObjectType(HitResult, GetReachStart(), GetReachEnd(), FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), TraceParameters);
 
-	UE_LOG(MyLogCategory, Warning, TEXT("YourFunction is being called!"));
-	return FHitResult();
+	UE_LOG(MyLogCategory, Warning, TEXT("GetPhysicsBodyInReach is being called!"));
+	return HitResult;
 }
 
 FVector UHook::GetReachStart()
@@ -94,8 +93,8 @@ FVector UHook::GetReachStart()
 
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(PlayerViewPoint, PlayerViewPointRotation);
 
-	UE_LOG(MyLogCategory, Warning, TEXT("YourFunction is being called!"));
-	return FVector();
+	UE_LOG(MyLogCategory, Warning, TEXT("GetReachStart is being called!"));
+	return PlayerViewPoint;
 }
 
 FVector UHook::GetReachEnd()
@@ -108,7 +107,7 @@ FVector UHook::GetReachEnd()
 
 	FVector LineTraceEnd = PlayerViewPoint + PlayerViewPointRotation.Vector() * Reach;
 
-	UE_LOG(MyLogCategory, Warning, TEXT("YourFunction is being called!"));
+	UE_LOG(MyLogCategory, Warning, TEXT("GetReachEnd is being called!"));
 	return LineTraceEnd;
 }
 
