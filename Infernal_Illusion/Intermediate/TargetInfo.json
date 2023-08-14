@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "Infernal_Illusion",
+			"Path": "C:\\Users\\George Edmon\\Documents\\Unreal Projects\\Infernal_Illusion\\Infernal_Illusion\\Source\\Infernal_Illusion.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "Infernal_IllusionEditor",
+			"Path": "C:\\Users\\George Edmon\\Documents\\Unreal Projects\\Infernal_Illusion\\Infernal_Illusion\\Source\\Infernal_IllusionEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
